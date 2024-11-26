@@ -7,7 +7,7 @@ namespace SaveSystem.Core
     /// <summary>
     /// Handle data in string format
     /// </summary>
-    internal class JsonSerializator : ISerializator
+    internal sealed class JsonSerializator : ISerializator
     {
         internal SaveSystemSettings _systemSettings;
         internal JsonSerializator(SaveSystemSettings systemSettings)

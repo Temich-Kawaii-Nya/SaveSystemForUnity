@@ -7,7 +7,7 @@ namespace SaveSystem.Core
     /// <summary>
     /// Handle data in binary format
     /// </summary>
-    internal class BinarySerializator : ISerializator
+    internal sealed class BinarySerializator : ISerializator
     {
         internal SaveSystemSettings _systemSettings;
 

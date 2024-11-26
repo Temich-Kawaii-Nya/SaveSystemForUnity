@@ -5,7 +5,7 @@ namespace SaveSystem.Core
 {
     [Serializable]
     [CreateAssetMenu(fileName = "SaveSystemSettings", menuName = "SaveSystem/Settings")]
-    internal class SaveSystemSettings : ScriptableObject
+    internal sealed class SaveSystemSettings : ScriptableObject
     {
         public enum SaveType
         {

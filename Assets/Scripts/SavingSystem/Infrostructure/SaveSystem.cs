@@ -7,21 +7,21 @@ namespace SaveSystem
     /// <summary>
     /// SaveSystem is a main class that provides all operation with saves
     /// </summary>
-    public class SaveSystem : MonoBehaviour
+    public sealed class SaveSystem : MonoBehaviour
     {
         /// <summary>
         /// Settings can be created in Editor: tools -> SaveSystem Settings
         /// </summary>
         [SerializeField] private SaveSystemSettings _settings;
         
-        private SaveFiledBinder _saveFieldBinder;
+        private SaveFiledsBinder _saveFieldBinder;
         private SavableEntities _savableEntities;
         private SaveManager _saveMetaManager;
 
         private void Awake()
         {
             _savableEntities = new SavableEntities();
-            _saveFieldBinder = new SaveFiledBinder();
+            _saveFieldBinder = new SaveFiledsBinder();
             _saveMetaManager = new SaveManager();
         }
         /// <summary>

@@ -3,7 +3,7 @@ using System;
 
 namespace SaveSystem.Utilities
 {
-    internal class SaveMetaUtility
+    internal sealed class SaveMetaUtility
     {
         public static DateTime CalculatePlayTime(SaveMeta saveMeta)
         {

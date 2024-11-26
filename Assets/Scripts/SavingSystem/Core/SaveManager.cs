@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Store saves meta files and save data from current save
 /// </summary>
-internal class SaveManager
+internal sealed class SaveManager
 {
     public Dictionary<Guid, SaveMeta> SaveMetas { get; set; }
     public SavedData SaveData { get; set; }

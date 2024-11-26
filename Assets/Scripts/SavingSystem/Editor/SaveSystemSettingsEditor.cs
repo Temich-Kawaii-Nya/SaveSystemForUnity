@@ -4,7 +4,7 @@ using SaveSystem.Utilities;
 
 namespace SaveSystem.Core.Editor
 {
-    internal class SaveSystemSettingsEditorWindow : EditorWindow
+    internal sealed class SaveSystemSettingsEditorWindow : EditorWindow
     {
         private SaveSystemSettings _settings;
 

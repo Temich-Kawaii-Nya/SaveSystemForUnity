@@ -5,7 +5,7 @@ using System;
 
 namespace SaveSystem.Utilities
 {
-    internal class EncryptorUtility
+    internal sealed class EncryptorUtility
     {
         private const int KEY_LENGTH = 32;
         private const int IV_LENGTH = 16;

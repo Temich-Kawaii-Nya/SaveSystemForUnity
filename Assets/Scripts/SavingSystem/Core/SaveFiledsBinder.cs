@@ -7,10 +7,10 @@ namespace SaveSystem.Core
     /// <summary>
     /// Saves all fields marked with attribute "Save"
     /// </summary>
-    internal class SaveFiledBinder
+    internal sealed class SaveFiledsBinder
     {
         public Dictionary<Type, FieldInfo[]> Classes { get; private set; }
-        public SaveFiledBinder()
+        public SaveFiledsBinder()
         {
             Classes = new Dictionary<Type, FieldInfo[]>();
             FindClasses();

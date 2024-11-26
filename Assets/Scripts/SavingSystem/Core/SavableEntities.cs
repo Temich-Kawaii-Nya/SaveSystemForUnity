@@ -6,7 +6,7 @@ namespace SaveSystem.Core
     /// <summary>
     /// Stores list of all savable entities objects
     /// </summary>
-    internal class SavableEntities : IDisposable
+    internal sealed class SavableEntities : IDisposable
     {
         public List<object> SavableEntitiesList => _savableObjects;
 

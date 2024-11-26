@@ -7,7 +7,7 @@ namespace SaveSystem.Models
     /// Stores data in save
     /// </summary>
     [Serializable]
-    public class SavedData
+    public sealed class SavedData
     {
         public Dictionary<string, string> savedData;
         public SavedData()

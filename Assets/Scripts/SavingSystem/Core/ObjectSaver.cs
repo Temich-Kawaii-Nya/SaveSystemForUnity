@@ -7,12 +7,12 @@ namespace SaveSystem.Core
     /// <summary>
     /// Saves and loads fields of savable objects
     /// </summary>
-    internal class ObjectSaver
+    internal sealed class ObjectSaver
     {
-        private SaveFiledBinder _saveRef;
+        private SaveFiledsBinder _saveRef;
         private SavableEntities _storage;
         private SaveManager _saveManager;
-        public ObjectSaver(SaveFiledBinder reflaxion, SavableEntities storage, SaveManager saveManager)
+        public ObjectSaver(SaveFiledsBinder reflaxion, SavableEntities storage, SaveManager saveManager)
         {
             _saveRef = reflaxion;
             _storage = storage;

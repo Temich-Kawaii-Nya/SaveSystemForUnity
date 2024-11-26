@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SaveSystem.Core.Editor
 {
     [CustomEditor(typeof(SaveSystemSettings))]
-    internal class SaveSystemEditor : UnityEditor.Editor
+    internal sealed class SaveSystemEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
