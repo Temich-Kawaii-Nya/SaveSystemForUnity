@@ -51,7 +51,6 @@ namespace SaveSystem.Utilities
                 aes.Key = key;
                 aes.IV = iv;
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
                 using var ms = new MemoryStream(chipher);
                 using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
                 using var sr = new StreamReader(cs);

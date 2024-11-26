@@ -1,5 +1,7 @@
 using SaveSystem.Core;
 using SaveSystem.Models;
+using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace SaveSystem
@@ -28,56 +30,57 @@ namespace SaveSystem
         /// Creates new Save
         /// </summary>
         
-        public SaveMeta CreateNewSave(string name, string player = "", float progress = 0f, string description = "")
+        public async Task<SaveMeta> CreateNewSave(string name, string player = "", float progress = 0f, string description = "")
         {
             var saveHandler = CreateFileHandler();
             var meta = saveHandler.CreateSave(name, player, progress, description);
-            StartCoroutine(saveHandler.SaveMetasFile());
-            StartCoroutine(CreateFileHandler().Save(meta));
+          
+            await saveHandler.SaveMetasFile();
+            await saveHandler.Save(meta);
 
             return meta;
         }
         /// <summary>
         /// Loads all save meta files
         /// </summary>
-        public void LoadMeta()
+        public async Task LoadMeta()
         {
-            StartCoroutine(CreateFileHandler().LoadSaveMetasFile());
+            await CreateFileHandler().LoadSaveMetasFile();
         }
         /// <summary>
         /// Saves all save meta files
         /// </summary>
-        public void SaveMeta()
+        public async Task SaveMeta()
         {
-            StartCoroutine(CreateFileHandler().SaveMetasFile());
+            await CreateFileHandler().SaveMetasFile();
         }
         /// <summary>
         /// Loads data from save and restore savable entities state
         /// </summary>
-        public void LoadData(SaveMeta meta)
+        public async Task LoadData(SaveMeta meta)
         {
-            StartCoroutine(CreateFileHandler().LoadSave(meta));
+            await CreateFileHandler().LoadSave(meta);
         }
         /// <summary>
         /// Save savable entities state
         /// </summary>
-        public void SaveData(SaveMeta meta)
+        public async Task SaveData(SaveMeta meta)
         {
-            StartCoroutine(CreateFileHandler().Save(meta));
+            await CreateFileHandler().Save(meta);
         }
         /// <summary>
         /// Delete save file
         /// </summary>
         public void DeleteSave(SaveMeta meta)
         {
-            StartCoroutine(CreateFileHandler().DeleteSave(meta));
+            CreateFileHandler().DeleteSave(meta);
         }
         /// <summary>
         /// Delete all save files
         /// </summary>
         public void DeleteAllSaves()
         {
-            StartCoroutine(CreateFileHandler().DeleteAllSaves());
+            CreateFileHandler().DeleteAllSaves();
         }
 
         private ISerializator CreateSerializator()

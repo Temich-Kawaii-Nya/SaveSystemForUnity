@@ -1,16 +1,16 @@
 using SaveSystem.Models;
 using SaveSystem.Utilities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SaveSystem.Core
 {
     /// <summary>
     /// Handle operations with files 
     /// </summary>
-    internal sealed class FileHandler : IFileHandler
+    internal sealed class FileHandler
     {
         public SaveManager _savesMetas;
 
@@ -42,45 +42,31 @@ namespace SaveSystem.Core
         /// <summary>
         /// Load all data from save and apply it to savable objects
         /// </summary>
-        public IEnumerator LoadSave(SaveMeta meta) //
+        public async Task LoadSave(SaveMeta meta)
         {
-            var isLoaded = false;
+            var filePath = GetFilePath(meta);
 
-            var fileName = SaveMetaUtility.GetFileName(meta, _saveSystemSettings.saveFileExtension);
-
-            var filePath = Path.Combine(_saveSystemSettings.Path, fileName);
-
-            var json = File.ReadAllBytes(filePath);
+            var json = await File.ReadAllBytesAsync(filePath);
 
             var loadedData = _serializator.DeserializeFile<SavedData>(json);
-
+            
             _savesMetas.SaveData = loadedData;
-
+            
             _objectSaver.Load();
-
-            isLoaded = true;
-
-            while (!isLoaded)
-            {
-                yield return null;
-            }
         }
         /// <summary>
         /// Save all savable objects data to save
         /// </summary>
-        public IEnumerator Save(SaveMeta meta)
+        /// 
+        public async Task Save(SaveMeta meta)
         {
-            var isSaved = false;
-
             _objectSaver.Save();
 
-            var fileName = SaveMetaUtility.GetFileName(meta, _saveSystemSettings.saveFileExtension);
-
-            var filePath = Path.Combine(_saveSystemSettings.Path, fileName);
+            var filePath = GetFilePath(meta);
 
             var json = _serializator.SerializeData(_savesMetas.SaveData);
 
-            File.WriteAllBytes(filePath, json);
+            await File.WriteAllBytesAsync(filePath, json);
 
 
             meta.time = SaveMetaUtility.CalculatePlayTime(meta);
@@ -88,73 +74,45 @@ namespace SaveSystem.Core
             meta.lastUpdate = DateTime.Now;
 
             meta.volume = new FileInfo(filePath).Length;
-
-            isSaved = true;
-
-            while (!isSaved)
-            {
-                yield return null;
-            }
         }
         /// <summary>
         /// Loads saves meta files
         /// </summary>
-        public IEnumerator LoadSaveMetasFile()
+        public async Task LoadSaveMetasFile()
         {
-            var isLoaded = false;
-
             var filePath = Path.Combine(_saveSystemSettings.Path, "save.meta");
-
-            var json = File.ReadAllBytes(filePath);
+            var json = await File.ReadAllBytesAsync(filePath);
 
             var metas = _serializator.DeserializeFile<Dictionary<Guid, SaveMeta>>(json);
 
             _savesMetas.SaveMetas = metas;
-
-            isLoaded = true;
-
-            while (isLoaded)
-            {
-                yield return null;
-            }
         }
         /// <summary>
         /// Saves meta files
         /// </summary>
-        public IEnumerator SaveMetasFile()
+        public async Task SaveMetasFile()
         {
-            var isSaved = false;
-
             var filePath = Path.Combine(_saveSystemSettings.Path, "save.meta");
             var json = _serializator.SerializeData(_savesMetas.SaveMetas);
         
-            File.WriteAllBytes(filePath, json);
-
-            isSaved = true;
-
-            while (isSaved)
-            {
-                yield return null;
-            }
+            await File.WriteAllBytesAsync(filePath, json);
         }
         /// <summary>
         /// Delete save file
         /// </summary>
-        public IEnumerator DeleteSave(SaveMeta meta)
+        public void DeleteSave(SaveMeta meta)
         {
             DeleteSaveData(meta);
-            yield return null;
         }
         /// <summary>
         /// Delete all save files
         /// </summary>
-        public IEnumerator DeleteAllSaves()
+        public void DeleteAllSaves()
         {
             foreach (var meta in _savesMetas.SaveMetas.Values)
             {
                 DeleteSaveData(meta);
             }
-            yield return null;
         }
         private void DeleteSaveData(SaveMeta meta)
         {
@@ -165,7 +123,6 @@ namespace SaveSystem.Core
 
             _savesMetas.SaveMetas.Remove(meta.id);
         }
-
         private string GetSaveFilePath(SaveMeta meta)
         {
             var fileName = SaveMetaUtility.GetFileName(meta, _saveSystemSettings.saveFileExtension);
@@ -173,6 +130,11 @@ namespace SaveSystem.Core
             var filePath = Path.Combine(_saveSystemSettings.Path, fileName);
 
             return filePath;
+        }
+        private string GetFilePath(SaveMeta meta)
+        {
+            var fileName = SaveMetaUtility.GetFileName(meta, _saveSystemSettings.saveFileExtension);
+            return Path.Combine(_saveSystemSettings.Path, fileName);
         }
     }
 
