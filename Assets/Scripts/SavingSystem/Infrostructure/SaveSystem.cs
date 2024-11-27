@@ -7,12 +7,12 @@ using UnityEngine;
 namespace SaveSystem
 {
     /// <summary>
-    /// SaveSystem is a main class that provides all operation with saves
+    /// Main class providing operations for managing saves.
     /// </summary>
     public sealed class SaveSystem : MonoBehaviour
     {
         /// <summary>
-        /// Settings can be created in Editor: tools -> SaveSystem Settings
+        /// Configuration settings for the save system, which can be set via the editor menu: Tools -> SaveSystem Settings.
         /// </summary>
         [SerializeField] private SaveSystemSettings _settings;
         
@@ -27,10 +27,14 @@ namespace SaveSystem
             _saveMetaManager = new SaveManager();
         }
         /// <summary>
-        /// Creates new Save
+        /// Creates a new save file with the specified parameters.
         /// </summary>
-        
-        public async Task<SaveMeta> CreateNewSave(string name, string player = "", float progress = 0f, string description = "")
+        /// <param name="name">Name of the save file.</param>
+        /// <param name="player">Optional name of the player associated with the save.</param>
+        /// <param name="description">Optional description of the save.</param>
+        /// <param name="progress">Optional progress value associated with the save (e.g., completion percentage).</param>
+        /// <returns>The metadata of the newly created save file.</returns>
+        public async Task<SaveMeta> CreateNewSave(string name, string player = "", string description = "", float progress = 0f)
         {
             var saveHandler = CreateFileHandler();
             var meta = saveHandler.CreateSave(name, player, progress, description);
@@ -55,34 +59,40 @@ namespace SaveSystem
             await CreateFileHandler().SaveMetasFile();
         }
         /// <summary>
-        /// Loads data from save and restore savable entities state
+        /// Loads data from a save file and restores the state of savable entities.
         /// </summary>
+        /// <param name="meta">The metadata of the save file to load.</param>
         public async Task LoadData(SaveMeta meta)
         {
             await CreateFileHandler().LoadSave(meta);
         }
         /// <summary>
-        /// Save savable entities state
+        /// Saves the current state of savable entities to a save file.
         /// </summary>
+        /// <param name="meta">The metadata of the save file to update.</param>
         public async Task SaveData(SaveMeta meta)
         {
             await CreateFileHandler().Save(meta);
         }
         /// <summary>
-        /// Delete save file
+        /// Deletes a specific save file.
         /// </summary>
+        /// <param name="meta">The metadata of the save file to delete.</param>
         public void DeleteSave(SaveMeta meta)
         {
             CreateFileHandler().DeleteSave(meta);
         }
         /// <summary>
-        /// Delete all save files
+        /// Deletes all save files and their metadata.
         /// </summary>
         public void DeleteAllSaves()
         {
             CreateFileHandler().DeleteAllSaves();
         }
-
+        /// <summary>
+        /// Creates a serializer instance based on the save type defined in the settings (e.g., JSON or binary).
+        /// </summary>
+        /// <returns>An implementation of the <see cref="ISerializator"/> interface.</returns>
         private ISerializator CreateSerializator()
         {
             switch (_settings.saveType)
@@ -95,6 +105,10 @@ namespace SaveSystem
                     return new JsonSerializator(_settings);
             }
         }
+        /// <summary>
+        /// Creates a file handler to manage file operations, including serialization, metadata management, and object saving.
+        /// </summary>
+        /// <returns>An instance of <see cref="FileHandler"/>.</returns>
         private FileHandler CreateFileHandler()
         {
             var saver = new ObjectSaver(_saveFieldBinder, _savableEntities, _saveMetaManager);

@@ -4,8 +4,8 @@ using UnityEngine;
 namespace SaveSystem
 {
     /// <summary>
-    /// For MonoBehaviour entities
-    /// All classes inherited from this class can be saved
+    /// Base class for savable MonoBehaviour entities.
+    /// Any class inheriting from <see cref="MonoSavableObject"/> is automatically tracked by the save system.
     /// </summary>
     public class MonoSavableObject : MonoBehaviour, IDisposable
     {

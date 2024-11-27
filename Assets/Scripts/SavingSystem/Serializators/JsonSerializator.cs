@@ -5,7 +5,7 @@ using System.Text;
 namespace SaveSystem.Core
 {
     /// <summary>
-    /// Handle data in string format
+    /// Handles serialization and deserialization of data using JSON format.
     /// </summary>
     internal sealed class JsonSerializator : ISerializator
     {

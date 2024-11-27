@@ -5,7 +5,7 @@ using SaveSystem.Utilities;
 namespace SaveSystem.Core
 {
     /// <summary>
-    /// Handle data in binary format
+    /// Handles serialization and deserialization of data in binary format.
     /// </summary>
     internal sealed class BinarySerializator : ISerializator
     {

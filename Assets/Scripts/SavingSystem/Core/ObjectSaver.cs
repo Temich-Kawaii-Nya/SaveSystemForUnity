@@ -18,6 +18,9 @@ namespace SaveSystem.Core
             _storage = storage;
             _saveManager = saveManager;
         }
+        /// <summary>
+        /// Save all data from entities
+        /// </summary>
         public void Save()
         {
             foreach (var obj in _storage.SavableEntitiesList)
@@ -25,6 +28,9 @@ namespace SaveSystem.Core
                 SaveObject(obj);
             }
         }
+        /// <summary>
+        /// loads all data for entities
+        /// </summary>
         public void Load()
         {
             foreach (var obj in _storage.SavableEntitiesList)
@@ -32,6 +38,11 @@ namespace SaveSystem.Core
                 LoadObject(obj);
             }
         }
+
+        /// <summary>
+        /// Saves the state of a single object.
+        /// </summary>
+        /// <param name="obj">The object to save.</param>
         private void SaveObject(object obj)
         {
             var type = obj.GetType();
@@ -45,6 +56,11 @@ namespace SaveSystem.Core
                 }
             }
         }
+
+        /// <summary>
+        /// Loads the state of a single object.
+        /// </summary>
+        /// <param name="obj">The object to load.</param>
         private void LoadObject(object obj)
         {
             var type = obj.GetType();
@@ -60,6 +76,13 @@ namespace SaveSystem.Core
                 }
             }
         }
+
+        /// <summary>
+        /// Serializes and saves a field value into the save data.
+        /// </summary>
+        /// <typeparam name="T">The type of the field value.</typeparam>
+        /// <param name="key">The unique key for the field.</param>
+        /// <param name="value">The value to save.</param>
         private void SaveField<T>(string key, T value)
         {
             string valueJson = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
@@ -74,6 +97,13 @@ namespace SaveSystem.Core
             else
                 data.Add(key, valueJson);
         }
+
+        /// <summary>
+        /// Deserializes and retrieves a field value from the save data.
+        /// </summary>
+        /// <param name="key">The unique key for the field.</param>
+        /// <param name="type">The type of the field value.</param>
+        /// <returns>The deserialized field value.</returns>
         private object GetField(string key, Type type)
         {
             _saveManager.SaveData.savedData.TryGetValue(key, out string json);

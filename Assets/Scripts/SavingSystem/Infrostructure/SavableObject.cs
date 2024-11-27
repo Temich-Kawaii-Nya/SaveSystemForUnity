@@ -3,13 +3,14 @@ using System;
 namespace SaveSystem
 {
     /// <summary>
-    /// All classes inherited from this class can be saved
+    /// Base class for savable objects. 
+    /// Classes inheriting from this class are automatically registered for saving and can be disposed.
     /// </summary>
     public class SavableObject : IDisposable
     {
         internal static event Action<object> OnCreate;
         internal static event Action<object> OnDispose;
-        SavableObject() 
+        public SavableObject() 
         {
             OnCreate?.Invoke(this);
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SaveSystem.Core
 {
     /// <summary>
-    /// Handle operations with files 
+    /// Handles file operations for save data, including saving, loading, and deleting save files and metadata.
     /// </summary>
     internal sealed class FileHandler
     {
@@ -27,6 +27,15 @@ namespace SaveSystem.Core
             _savesMetas = saveMeta;
             _objectSaver = saver;
         }
+
+        /// <summary>
+        /// Creates a new save file metadata entry and updates the metadata manager.
+        /// </summary>
+        /// <param name="name">Name of the save file.</param>
+        /// <param name="player">Optional name of the player associated with the save.</param>
+        /// <param name="progress">Optional progress value for the save.</param>
+        /// <param name="description">Optional description of the save.</param>
+        /// <returns>Ñreated <see cref="SaveMeta"/> object.</returns>
         public SaveMeta CreateSave(string name, string player = "", float progress = 0f, string description = "")
         {
             var id = Guid.NewGuid();
@@ -39,9 +48,11 @@ namespace SaveSystem.Core
 
             return meta;
         }
+
         /// <summary>
-        /// Load all data from save and apply it to savable objects
+        /// Loads save data from a file and applies it to savable objects.
         /// </summary>
+        /// <param name="meta">Metadata of the save file to load.</param>
         public async Task LoadSave(SaveMeta meta)
         {
             var filePath = GetFilePath(meta);
@@ -55,9 +66,9 @@ namespace SaveSystem.Core
             _objectSaver.Load();
         }
         /// <summary>
-        /// Save all savable objects data to save
+        /// Saves the current state of savable objects to a save file.
         /// </summary>
-        /// 
+        /// <param name="meta">Metadata of the save file to update.</param>
         public async Task Save(SaveMeta meta)
         {
             _objectSaver.Save();
@@ -75,8 +86,9 @@ namespace SaveSystem.Core
 
             meta.volume = new FileInfo(filePath).Length;
         }
+
         /// <summary>
-        /// Loads saves meta files
+        /// Loads metadata for all saves from a file.
         /// </summary>
         public async Task LoadSaveMetasFile()
         {
@@ -88,7 +100,7 @@ namespace SaveSystem.Core
             _savesMetas.SaveMetas = metas;
         }
         /// <summary>
-        /// Saves meta files
+        /// Saves metadata for all saves to a file.
         /// </summary>
         public async Task SaveMetasFile()
         {
@@ -98,14 +110,14 @@ namespace SaveSystem.Core
             await File.WriteAllBytesAsync(filePath, json);
         }
         /// <summary>
-        /// Delete save file
+        /// Deletes a specific save file and removes its metadata entry.
         /// </summary>
         public void DeleteSave(SaveMeta meta)
         {
             DeleteSaveData(meta);
         }
         /// <summary>
-        /// Delete all save files
+        /// Deletes all save files and clears their metadata entries.
         /// </summary>
         public void DeleteAllSaves()
         {
@@ -114,6 +126,11 @@ namespace SaveSystem.Core
                 DeleteSaveData(meta);
             }
         }
+
+        /// <summary>
+        /// Deletes a save file and its associated metadata.
+        /// </summary>
+        /// <param name="meta">Metadata of the save file to delete.</param>
         private void DeleteSaveData(SaveMeta meta)
         {
             var path = GetSaveFilePath(meta);
@@ -123,6 +140,12 @@ namespace SaveSystem.Core
 
             _savesMetas.SaveMetas.Remove(meta.id);
         }
+
+        /// <summary>
+        /// Gets the file path for a save file using its metadata.
+        /// </summary>
+        /// <param name="meta">Metadata of the save file.</param>
+        /// <returns>Absolute file path for the save file.</returns>
         private string GetSaveFilePath(SaveMeta meta)
         {
             var fileName = SaveMetaUtility.GetFileName(meta, _saveSystemSettings.saveFileExtension);
@@ -131,6 +154,12 @@ namespace SaveSystem.Core
 
             return filePath;
         }
+
+        /// <summary>
+        /// Alias for retrieving the save file path using metadata.
+        /// </summary>
+        /// <param name="meta">Metadata of the save file.</param>
+        /// <returns>Absolute file path for the save file.</returns>
         private string GetFilePath(SaveMeta meta)
         {
             var fileName = SaveMetaUtility.GetFileName(meta, _saveSystemSettings.saveFileExtension);
