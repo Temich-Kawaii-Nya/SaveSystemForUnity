@@ -1,68 +1,102 @@
-# SaveSystemForUnity
-##🌟 About the Project
-This is a modular save system for Unity that supports:
-- Creating save slots.
-- Saving and loading data in JSON or Binary format.
-- Data encrypting.
-- Backup files.
-##🔧 Features
-Easy integration via interfaces and an event-driven system.
-Simple customization with editor extension for any project needs.
-##📦 Installation
-1. Clone the repository or download the ZIP archive:
-```bash
-git clone https://github.com/your-username/Unity-Save-System.git
-```
-2. Import the folder into your Unity project.
-🚀 Использование
-Подключение Save Manager Добавьте SaveManager в качестве prefab или через Zenject.
+# SaveSystemForUnity  
 
-Сохранение данных Используйте следующий код:
+## 🌟 About the Project  
+This is a modular save system for Unity that supports:  
+- Creating save slots.  
+- Saving and loading data in JSON or Binary format.  
+- Data encryption.  
+- Backup file creation for added security.  
 
-csharp
-Копировать код
+---
+
+## 🔧 Features  
+- Easy integration via interfaces and an event-driven system.  
+- Simple customization with an editor extension for any project needs.  
+
+---
+
+## 📦 Installation  
+
+1. Clone the repository or download the ZIP archive:  
+   ```bash
+   git clone https://github.com/your-username/Unity-Save-System.git
+   ```  
+2. Import the folder into your Unity project.  
+
+---
+
+## 🚀 Usage  
+
+### Adding the Save Manager  
+Add the `SaveManager` prefab to your scene or integrate it via Zenject.  
+
+### Saving Data  
+```csharp
 SaveManager.Instance.Save("key", yourData);
-Загрузка данных
+```  
 
-csharp
-Копировать код
+### Loading Data  
+```csharp
 var data = SaveManager.Instance.Load<YourType>("key");
-Удаление сохранений
+```  
 
-csharp
-Копировать код
+### Deleting Save Data  
+```csharp
 SaveManager.Instance.Delete("key");
-🛠️ Как настроить
-Настройте Zenject, добавив SaveManagerInstaller в сцены.
-Убедитесь, что SaveData корректно сериализуется в JSON.
-Добавьте события для уведомлений о загрузке/сохранении данных.
-📚 Документация
-Для получения дополнительной информации смотрите:
+```  
 
-Примеры кода
-Архитектура системы
-📖 Дорожная карта
- Добавить поддержку облачных сохранений.
- Интеграция с игровыми достижениями.
- Улучшение производительности при больших объемах данных.
-🤝 Вклад в проект
-Мы приветствуем ваши идеи и вклад в развитие проекта! Чтобы внести изменения:
+---
 
-Форкните репозиторий.
-Создайте новую ветку:
-bash
-Копировать код
-git checkout -b feature/your-feature
-Сделайте коммит и отправьте pull request.
-💬 Контакты
-Если у вас есть вопросы или предложения, пишите:
+## 🛠️ Setup  
 
-Email: example@email.com
-Telegram: @ваш-тег
-📜 Лицензия
-Этот проект распространяется под лицензией MIT. Подробности смотрите в LICENSE.
+1. Configure Zenject by adding the `SaveManagerInstaller` to your scenes.  
+2. Ensure `SaveData` is properly serialized in JSON or Binary format.  
+3. Add events to notify your game systems when data is saved or loaded.  
 
-🖼️ Скриншоты
-Добавьте сюда несколько скриншотов, демонстрирующих работу вашей системы.
+---
 
-Могу помочь с реализацией конкретного раздела или улучшением структуры, если потребуется! 😊
+## 📚 Documentation  
+
+For more information, refer to:  
+- [Code Examples](docs/examples.md)  
+- [System Architecture](docs/architecture.md)  
+
+---
+
+## 📖 Roadmap  
+
+- [ ] Add cloud save support.  
+- [ ] Integrate with game achievements.  
+- [ ] Optimize performance for handling large datasets.  
+
+---
+
+## 🤝 Contributing  
+
+We welcome your ideas and contributions! To contribute:  
+1. Fork the repository.  
+2. Create a new branch:  
+   ```bash
+   git checkout -b feature/your-feature
+   ```  
+3. Commit your changes and open a pull request.  
+
+---
+
+## 💬 Contact  
+
+If you have any questions or suggestions, feel free to reach out:  
+- Email: [example@email.com](mailto:example@email.com)  
+- Telegram: [@your-handle](https://t.me/your-handle)  
+
+---
+
+## 📜 License  
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
+
+---
+
+## 🖼️ Screenshots  
+
+Include a few screenshots showcasing your system in action.  
