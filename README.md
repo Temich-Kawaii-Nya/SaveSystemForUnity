@@ -25,14 +25,28 @@ This is a modular save system for Unity that supports:
 
 ---
 
+## 🛠️ Setup  
+
+1. Add the `SaveSystem` to your scenes.
+2. Bind the `Event Bus` to Zenject container or simply create the its instance.
+3. Call the `Contract` method of `SaveSystem`.
+
+---
 ## 🚀 Usage  
 
-### Adding the Save Manager  
-Add the `SaveManager` prefab to your scene or integrate it via Zenject.  
-
-### Saving Data  
+### Creating new save
 ```csharp
-SaveManager.Instance.Save("key", yourData);
+//you need an instance of EventBus
+var eventBus = new EventBus();
+//create params of new save
+//only name of save is required param, other is optional
+var saveParams = new SaveParams(
+   "name of new save",
+   "name of player",
+   "some description"
+   );
+//send the request using event bus
+eventBus.SendRequest(new CreateSaveRequest(saveParams))
 ```  
 
 ### Loading Data  
@@ -44,14 +58,6 @@ var data = SaveManager.Instance.Load<YourType>("key");
 ```csharp
 SaveManager.Instance.Delete("key");
 ```  
-
----
-
-## 🛠️ Setup  
-
-1. Configure Zenject by adding the `SaveManagerInstaller` to your scenes.  
-2. Ensure `SaveData` is properly serialized in JSON or Binary format.  
-3. Add events to notify your game systems when data is saved or loaded.  
 
 ---
 
