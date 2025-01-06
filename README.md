@@ -1,19 +1,19 @@
 # SaveSystemForUnity
 ##🌟 About the Project
 This is a modular save system for Unity that supports:
-- Saving and loading data in JSON format.
-- Full independence from game logic, making it reusable across different projects.
-- Integration with Zenject, EventBus, and other architectural approaches.
-🔧 Features
-Support for serializing and deserializing any data types.
+- Creating save slots.
+- Saving and loading data in JSON or Binary format.
+- Data encrypting.
+- Backup files.
+##🔧 Features
 Easy integration via interfaces and an event-driven system.
-Simple customization and extension for any project needs.
-📦 Установка
-Клонируйте репозиторий или скачайте ZIP-архив:
-bash
-Копировать код
-git clone https://github.com/ваш-логин/Unity-Save-System.git
-Импортируйте папку с проектом в Unity.
+Simple customization with editor extension for any project needs.
+##📦 Installation
+1. Clone the repository or download the ZIP archive:
+```bash
+git clone https://github.com/your-username/Unity-Save-System.git
+```
+2. Import the folder into your Unity project.
 🚀 Использование
 Подключение Save Manager Добавьте SaveManager в качестве prefab или через Zenject.
 
