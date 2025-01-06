@@ -34,7 +34,7 @@ This is a modular save system for Unity that supports:
 ---
 ## 🚀 Usage  
 
-### Creating new save
+### Creating New Save
 ```csharp
 //you need an instance of EventBus
 var eventBus = new EventBus();
@@ -46,19 +46,50 @@ var saveParams = new SaveParams(
    "some description"
    );
 //send the request using event bus
-eventBus.SendRequest(new CreateSaveRequest(saveParams))
-```  
-
+//response returns bool value
+var response = await eventBus.SendRequest(new CreateSaveRequest(saveParams));
+```
+### Creating Data Entity
+To save data you need inherit data class from `SavableObject` or `MonoSavableObject` for MonoBehaviour objects.
+```csharp
+//inherit data class from `SavableObject`
+public class FooData: SavableObject
+{
+   //to define which data to save, you need to add `[save]` attribute
+   //you can save both fields and properties
+   //fields can be public or private
+   [save]
+   private float _health;
+   [save]
+   private int _score;
+   [save]
+   private Vector3 _pos;
+   //this field won't be saved
+   private int _wontBeSaved;
+}
+```
+### Getting Meta Data Of Save
+After you creating new saves, you can get list of all meta data
+```csharp
+var response = await eventBus.SendRequest(new LoadSaveMetaRequest());
+var metas = response.metas;
+```
+### Saving Data
+After you've created data class you can save its data
+```csharp
+var saveMetas = await eventBus.sendRequest();
+//get the guid of data save
+var id = metas[0].id;
+//send the requets using event bus
+//response returns bool value
+var response = await eventBus.SendRequest(new SaveDataToSaveRequest(id));
+//data was saved
+```
 ### Loading Data  
 ```csharp
-var data = SaveManager.Instance.Load<YourType>("key");
-```  
-
-### Deleting Save Data  
-```csharp
-SaveManager.Instance.Delete("key");
-```  
-
+var id = metas[0].id;
+var response = await eventBus.SendRequest(new LoadDataFromSaveRequest(id));
+``` 
 ---
 
 ## 📚 Documentation  
@@ -71,28 +102,14 @@ For more information, refer to:
 
 ## 📖 Roadmap  
 
-- [ ] Add cloud save support.  
-- [ ] Integrate with game achievements.  
-- [ ] Optimize performance for handling large datasets.  
-
----
-
-## 🤝 Contributing  
-
-We welcome your ideas and contributions! To contribute:  
-1. Fork the repository.  
-2. Create a new branch:  
-   ```bash
-   git checkout -b feature/your-feature
-   ```  
-3. Commit your changes and open a pull request.  
+- [ ] Add cloud and server save support.  
 
 ---
 
 ## 💬 Contact  
 
-If you have any questions or suggestions, feel free to reach out:  
-- Email: [example@email.com](mailto:example@email.com)  
+If you have any questions or suggestions, contact me:  
+- Email: [erzumashev96+dev@gmail.com](erzumashev96+dev@gmail.com)  
 - Telegram: [@your-handle](https://t.me/your-handle)  
 
 ---
