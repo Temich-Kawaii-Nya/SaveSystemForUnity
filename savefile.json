@@ -1,0 +1,30 @@
+{
+    "objects": [
+        {
+            "uniqueID": "edf4e10b-27f4-4a5d-b629-d23b05bd536f",
+            "savedFields": [
+                {
+                    "fieldName": "health",
+                    "value": "2"
+                },
+                {
+                    "fieldName": "level",
+                    "value": "0"
+                }
+            ]
+        },
+        {
+            "uniqueID": "61e278f3-8f20-4816-b85c-79ed98be73ff",
+            "savedFields": [
+                {
+                    "fieldName": "health",
+                    "value": "2"
+                },
+                {
+                    "fieldName": "level",
+                    "value": "0"
+                }
+            ]
+        }
+    ]
+}
